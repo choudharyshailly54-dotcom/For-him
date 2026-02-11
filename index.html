@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Only Boy ❤️</title>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #1a1a2e; font-family: sans-serif; color: white; }
+        .page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; flex-direction: column; text-align: center; background: radial-gradient(circle at bottom, #ffafbd, #1a1a2e 80%); }
+        .active { display: flex; }
+        
+        /* Scratch Layer */
+        #scratch-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; cursor: crosshair; touch-action: none; }
+        #cat-img { width: 280px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        /* Polaroid Section */
+        .polaroid { background: white; padding: 15px 15px 60px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transform: rotate(-2deg); width: 80%; max-width: 320px; }
+        .pic-wrap { width: 100%; aspect-ratio: 1/1; background: #222; overflow: hidden; }
+        #ss-img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 2s; }
+        .caption { color: #333; font-family: 'cursive', 'Brush Script MT'; margin-top: 15px; font-size: 1.5rem; }
+
+        /* Paragraph Section */
+        .glass-note { width: 85%; max-height: 65vh; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border-radius: 20px; padding: 25px; overflow-y: auto; text-align: left; line-height: 1.6; border: 1px solid rgba(255,255,255,0.2); font-size: 1rem; }
+        
+        .btn { margin-top: 25px; padding: 12px 30px; border-radius: 50px; border: 2px solid #e5b1a1; background: transparent; color: #e5b1a1; font-weight: bold; cursor: pointer; text-transform: uppercase; z-index: 110; }
+        .heart { font-size: 100px; cursor: pointer; user-select: none; }
+        .beat { animation: heartBeat 0.8s infinite; }
+        @keyframes heartBeat { 0% {transform: scale(1);} 50% {transform: scale(1.1);} 100% {transform: scale(1);} }
+    </style>
+</head>
+<body>
+
+    <audio id="player" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <div id="p1" class="page active">
+        <canvas id="scratch-canvas"></canvas>
+        <img src="10665.gif" id="cat-img">
+        <p style="margin-top:20px;">Wipe the screen, Bilauta...</p>
+        <button id="b1" class="btn" style="display:none;" onclick="nextPage(2)">Next</button>
+    </div>
+
+    <div id="p2" class="page">
+        <div class="polaroid">
+            <div class="pic-wrap"><img src="10673.png" id="ss-img"></div>
+            <div class="caption">You + 💄 + my lips =</div>
+        </div>
+        <button id="snap" class="btn" onclick="revealPhoto()">Capture</button>
+        <button id="b2" class="btn" style="display:none;" onclick="nextPage(3)">Read My Heart</button>
+    </div>
+
+    <div id="p3" class="page">
+        <div class="glass-note">
+            Okay, so like, I’m actually so deep in my feels right now it’s embarrassing 😭. Happy Hug Day to my favorite and only boy💗.<br><br>
+            Honestly, if you told the December 11th version of me that I’d be this obsessed with someone I can’t even reach out and squeeze right now, I would’ve told you to touch grass. But here we are, and literally, all I want is to teleport into your room and never let go.<br><br>
+            I know I act all shy and cover my eyes when you tease me about that screen kiss (you’re literally a menace for that btw), but lowkey? It was the highlight of my life. Watching me fumble more than 10 times just to ask for permission to kiss your lips while you looked at the ceiling pretending to be all oblivious? I see your game! 🙄<br><br>
+            I promise to be yours faithfully 💖 and the person who always says 'yes' to your chaos. I wish I could actually teleport to you right now and just put my head on your chest instead of sending you a link, but until then, this digital hug is all yours. I’m so incredibly lucky it’s you. Don’t get too cocky though, you still have to work for those blushes. I love you, always. 🎀✨
+        </div>
+        <button class="btn" onclick="nextPage(4)">Receive Hug</button>
+    </div>
+
+    <div id="p4" class="page">
+        <div class="heart" id="h-icon" onmousedown="hOn()" onmouseup="hOff()" ontouchstart="hOn()" ontouchend="hOff()">🫂</div>
+        <h2 style="color:#e5b1a1; margin-top:20px;">Hold to feel the hug</h2>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d');
+        const music = document.getElementById('player');
+        let started = false;
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ctx.fillStyle = "#ffffff"; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#888";
+            ctx.textAlign = "center";
+            ctx.fillText("Scratch here...", canvas.width/2, canvas.height/2);
+        }
+
+        function scratch(e) {
+            if(!started) { music.play(); started = true; }
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 40, 0, Math.PI * 2);
+            ctx.fill();
+            document.getElementById('b1').style.display = "block";
+        }
+
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchmove', scratch);
+        window.onload = init;
+
+        function nextPage(n) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('p' + n).classList.add('active');
+        }
+
+        function revealPhoto() {
+            document.getElementById('ss-img').style.opacity = "1";
+            document.getElementById('snap').style.display = "none";
+            document.getElementById('b2').style.display = "block";
+        }
+
+        let vib;
+        function hOn() {
+            document.getElementById('h-icon').classList.add('beat');
+            if(navigator.vibrate) vib = setInterval(() => navigator.vibrate([200, 100]), 500);
+        }
+        function hOff() {
+            document.getElementById('h-icon').classList.remove('beat');
+            clearInterval(vib);
+        }
+    </script>
+</body>
+</html>
